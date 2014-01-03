@@ -59,6 +59,11 @@ class Board:
         Returns a string (error message) if move failed, None otherwise.
         TODO jumping and capturing
         """
+        
+        while not is_coord(from_coord) or not is_coord(to_coord):
+            new_move = input('Player %s, enter move (for example, A0 B1 to move the piece at A0 to B1): ' % player).split(' ')
+            from_coord, to_coord = move[0], move[1]
+        
         from_y, from_x = 'ABCDEFGH'.index(from_coords[0]), int(from_coords[1])
         to_y, to_x = 'ABCDEFGH'.index(to_coords[0]), int(to_coords[1])
         if self.data[from_x][from_y] is None:
@@ -74,6 +79,16 @@ class Board:
                 return 'That\'s not a diagonal move!'
         else:
             return 'That\'s not your piece!'
+
+def is_coord(coord):
+    return coord in ['A0', 'A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7',
+                     'B0', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7',
+                     'C0', 'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7',
+                     'D0', 'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7',
+                     'E0', 'E1', 'E2', 'E3', 'E4', 'E5', 'E6', 'E7',
+                     'F0', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7',
+                     'G0', 'G1', 'G2', 'G3', 'G4', 'G5', 'G6', 'G7',
+                     'H0', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7']
 
 def ask_for_move(player, board):
     """Ask the player for a move, and move there, given a board."""
