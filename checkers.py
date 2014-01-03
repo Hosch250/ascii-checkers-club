@@ -187,13 +187,26 @@ def get_valid_moves(board, player):
     for x in range(8):
         for y in range(8):
             if board.data[x][y] is not None and board.data[x][y].player == player:
-                direction = 1 if player == Checker.PLAYER_ONE else -1
-                can_move_forwards = x > 0 if player == Checker.PLAYER_ONE else x < 7
-                if can_move_forwards and y > 0 and board.data[x + direction][y - 1] is None:
-                    moves.append([xy_to_coords(x, y), xy_to_coords(x + direction, y - 1)])
-                if can_move_forwards and y < 7 and board.data[x + direction][y + 1] is None:
-                    moves.append([xy_to_coords(x, y), xy_to_coords(x + direction, y + 1)])
-                # TODO kings
+                # standard pieces
+                if not board.data[x][y].king:
+                    direction = 1 if player == Checker.PLAYER_ONE else -1
+                    can_move_forwards = x > 0 if player == Checker.PLAYER_ONE else x < 7
+                    if can_move_forwards and y > 0 and board.data[x + direction][y - 1] is None:
+                        moves.append([xy_to_coords(x, y), xy_to_coords(x + direction, y - 1)])
+                    if can_move_forwards and y < 7 and board.data[x + direction][y + 1] is None:
+                        moves.append([xy_to_coords(x, y), xy_to_coords(x + direction, y + 1)])
+
+                # kings
+                elif board.data[x][y].king:
+                    if y > 0 and x > 0 and board.data[x - 1][y - 1] is None:
+                        moves.append([xy_to_coords(x, y), xy_to_coords(x - 1, y - 1)])
+                    if y < 7 and x < 7 and board.data[x + 1][y + 1] is None:
+                        moves.append([xy_to_coords(x, y), xy_to_coords(x + 1, y + 1)])
+                    if y > 0 and x < 7 and board.data[x + 1][y - 1] is None:
+                        moves.append([xy_to_coords(x, y), xy_to_coords(x + 1, y - 1)])
+                    if y < 7 and x > 0 and board.data[x - 1][y + 1] is None:
+                        moves.append([xy_to_coords(x, y), xy_to_coords(x - 1, y + 1)])
+                # TODO kings - done
                 # TODO capturing
 
     return moves
