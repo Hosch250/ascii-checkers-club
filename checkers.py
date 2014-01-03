@@ -106,7 +106,10 @@ def is_coord(coord):
 
 def ask_for_move(player, board):
     """Ask the player for a move, and move there, given a board."""
-    move = input('Player %s, enter move (for example, A0 B1 to move the piece at A0 to B1): ' % player).split(' ')
+    move = []
+    while len(move) != 2:
+        move = input('Player %s, enter move (for example, A0 B1 to move the piece at A0 to B1): ' % player).split(' ')
+    
     message = board.move(player, move[0], move[1])
     while message is not None:
         move = input(message + ' Please try again: ').split(' ')
