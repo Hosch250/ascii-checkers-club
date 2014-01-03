@@ -225,17 +225,32 @@ def get_best_move(board, recurse_depth = 0, moves_so_far = []):
         if b[1] > best_board[1]: best_board = b
     return b + moves_so_far
 
+def is_draw(board):
+    return len(get_valid_moves(board, Checker.PLAYER_ONE)) == 0 and len(get_valid_moves(board, Checker.PLAYER_TWO)) == 0:
+
 if __name__ == '__main__':
     players = input('Enter number of players (1 or 2): ')
     while players not in ['1', '2']:
         players = input('Invalid number of players. Try again: ')
-
+    
     if players == '1':
         print('AI not implemented yet. So... I\'ll just... do nothing')
     else:
         board = Board()
         while True:
-            print(board.render())
+            print(board.render(Checker.PLAYER_ONE))
             board = input_and_move(Checker.PLAYER_ONE, board)
-            print(board.render())
+            if board.number_of_pieces(Checker.PLAYER_ONE) is 0:
+                print('Player 1 wins!')
+                break
+            if is_draw(board):
+                print('Draw!')
+                break
+            print(board.render(Checker.PLAYER_TWO))
             board = input_and_move(Checker.PLAYER_TWO, board)
+            if board.number_of_pieces(Checker.PLAYER_TWO) is 0:
+                print('Player 2 wins!')
+                break
+            if is_draw(board):
+                print('Draw!')
+                break
