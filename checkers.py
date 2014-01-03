@@ -45,14 +45,21 @@ class Board:
         """Returns an amount of empty rows."""
         return [[None] * 8 for _ in range(count)]
 
-    def render(self):
+    def render(self, player):
         """Returns an ASCII representation of the board."""
+        
         s = '   A B C D E F G H \n'
-        for n, row in enumerate(self.data):
-            s += '  +-+-+-+-+-+-+-+-+\n'
-            s += '%i |%s|\n' % (n, '|'.join([Checker.character(p) for p in row]))
+        if player is Checker.PLAYER_TWO:
+            for n, row in enumerate(self.data):
+                s += '  +-+-+-+-+-+-+-+-+\n'
+                s += '%i |%s|\n' % (n, '|'.join([Checker.character(p) for p in row]))
+        else:
+            for n in range(len(self.data)):
+                row = self.data[len(self.data)-n-1]
+                s += '  +-+-+-+-+-+-+-+-+\n'
+                s += ('\n|%s| %i' % ('|'.join([Checker.character(p) for p in row]), n))[::-1]
         s += '  +-+-+-+-+-+-+-+-+'
-        s += '\nBest move result: ' + str(get_best_move(self)) # temporary
+        s += '\n' + str(eval_game_state(self)) # temporary
         return s
 
     def number_of_pieces(self, player):
