@@ -51,6 +51,27 @@ class Board:
             s += '%i |%s|\n' % (n, '|'.join([Checker.character(p) for p in row]))
         s += '  +-+-+-+-+-+-+-+-+'
         return s
+        
+    # x
+    def is_empty(self, x, y):
+        if x is 'A':
+            xx = 0
+        elif x is 'B':
+            xx = 1
+        elif x is 'C':
+            xx = 2
+        elif x is 'D':
+            xx = 3
+        elif x is 'E':
+            xx = 4
+        elif x is 'F':
+            xx = 5
+        elif x is 'G':
+            xx = 6
+        else:
+            xx = 7
+            
+        return self.data[xx][y] is None
 
 if __name__ == '__main__':
     board = Board()
