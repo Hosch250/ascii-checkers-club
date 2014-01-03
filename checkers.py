@@ -43,6 +43,7 @@ class Board:
         """Returns an amount of empty rows."""
         return [[None] * 8 for _ in range(count)]
 
+    # renders board
     def render(self):
         """Returns an ASCII representation of the board."""
         s = '   A B C D E F G H \n'
@@ -51,7 +52,15 @@ class Board:
             s += '%i |%s|\n' % (n, '|'.join([Checker.character(p) for p in row]))
         s += '  +-+-+-+-+-+-+-+-+'
         return s
+        
+    # returns is x,y empty
+    def is_empty(self, x, y):
+        return self.data[x][y] is None
 
 if __name__ == '__main__':
     board = Board()
     print(board.render())
+    
+    for i in range(0,8):
+        for j in range(0,8):
+            print('{0},{1}: {2}'.format(i,j,board.is_empty(i,j)))
