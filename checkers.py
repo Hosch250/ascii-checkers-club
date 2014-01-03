@@ -235,7 +235,7 @@ if __name__ == '__main__':
     else:
         board = Board()
         while True:
-            print(board.render())
+            print(board.render(Checker.PLAYER_ONE))
             board = input_and_move(Checker.PLAYER_ONE, board)
-            print(board.render())
+            print(board.render(Checker.PLAYER_TWO))
             board = input_and_move(Checker.PLAYER_TWO, board)
