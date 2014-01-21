@@ -119,17 +119,15 @@ class Board:
 
 def comp_move(board, player, move):
 
-    message = board.move(player, move[0], move[1])
-    
-    board = message[1]
+    is_king = board.data[int(move[0][1])]['ABCDEFGH'.index(move[0][0])].king
 
-    # handle multiple jumps
-    for i in range(2, len(move)):
+    # moves - handle multiple jumps
+    for i in range(1, len(move)):
         message = board.move(player, move[i-1], move[i])
         if message[0]:
             board = message[1]
-        else:
-            print(message[1])
+        else: break
+        if is_king != board.data[int(move[i][1])]['ABCDEFGH'.index(move[i][0])].king:
             break
 
     return board
@@ -168,6 +166,8 @@ def input_and_move(player, board):
     """Ask the player for a move, and move there, given a board."""
     move = ask_for_move(player)
 
+    is_king = board.data[int(move[0][1])]['ABCDEFGH'.index(move[0][0])].king
+    
     check_move = get_valid_moves(board, player)
     while is_capture(board, player, check_move[0][0], check_move[0][1]) and not is_capture(board, player, move[0], move[1]):
         print('Invalid move: you must jump')
@@ -187,6 +187,8 @@ def input_and_move(player, board):
             board = message[1]
         else:
             print(message[1])
+            break
+        if board.data[int(move[i][1])]['ABCDEFGH'.index(move[i][0])].king != is_king:
             break
 
     return board
@@ -331,7 +333,7 @@ def get_best_move(board, recurse_depth = 0, moves_so_far = [], maximum = 1337):
                 for i in jump[0]:
                     m.append(i)
         else:
-            opponent_moved_board = AI_moved_board.move(Checker.PLAYER_TWO, m[0], m[1])[1]
+            AI_moved_board = AI_moved_board.move(Checker.PLAYER_TWO, m[0], m[1])[1]
         # we've done a full move.
         # now call `get_o_best_move` on the new board.
         if recurse_depth >= 5: # make this bigger for more look-ahead
@@ -480,7 +482,7 @@ def get_best_jump(board, player, from_coord):
 
 if __name__ == '__main__':
     players = input('Enter number of players (0, 1, 2): ')
-    while players not in ['0','1', '2']:
+    while players not in ['0','1','2']:
         players = input('Invalid number of players. Try again: ')
 
     if players == '0':
